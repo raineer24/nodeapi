@@ -37,7 +37,7 @@ router.get('/', (req, res, next) => {
                     };
                 })
             }
-            res.status(200).json(docs);
+            res.status(200).json(response);
         })
         .catch(err => {
             console.log(err);
@@ -62,7 +62,7 @@ router.post('/', (req, res, next) => {
                 _id: result._id,
                 request: {
                     type: "GET",
-                             url: "http://localhost:3000/products/" + result._id
+                    url: "http://localhost:3000/products/" + result._id
                 }
             }
         });
@@ -114,7 +114,7 @@ router.patch('/:productId', (req, res, next) => {
     Product.update({ _id: id }, { $set: updateOps })
         .exec()
         .then(result => {
-            
+
             res.status(200).json({
                 message: 'Product Updated',
                 request: {
@@ -134,14 +134,7 @@ router.delete('/:productId', (req, res, next) => {
     Product.remove({ _id: id })
         .exec()
         .then(result => {
-            res.status(200).json({
-                message: 'Product deleted',
-                request: {
-                    type: 'POST',
-                    url: 'http://localhost:3000/products/',
-                    body: { name: 'String', price: 'Number'}
-                }
-            })
+            res.status(200).json(result)
         })
         .catch(err => {
             console.log(err);
@@ -151,4 +144,3 @@ router.delete('/:productId', (req, res, next) => {
         });
 });
 module.exports = router;
-
