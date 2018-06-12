@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-
+const nodeMailer = require('nodemailer');
 
 
 const productRoutes = require('./api/routes/products');
@@ -21,7 +21,38 @@ app.use(morgan('dev'));
 app.use('/uploads',express.static('uploads'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
+app.get('/', function (req, res) {
+    res.render('index');
+});
 
+app.post('/send-email', function (req, res) {
+    let transporter = nodeMailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        auth: {
+            user: 'raineerdelarita@gmail.com',
+            pass: 'delarita'
+        }
+    });
+    let mailOptions = {
+        from: 'raineerdelarita@gmail.com', // sender address
+        to: req.body.to, // list of receivers
+        subject: req.body.subject, // Subject line
+        text: req.body.body, // plain text body
+        html: '<b>NodeJS Email Tutorial</b>' // html body
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message %s sent: %s', info.messageId, info.response);
+        res.render('index');
+    });
+});
 app.use((req,res,next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
@@ -34,6 +65,8 @@ app.use((req,res,next) => {
     }
     next();
 });
+
+
 
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
@@ -53,5 +86,8 @@ app.use((error, req, res, next) => {
         }
     })
 });
+
+
+
 
 module.exports = app;
