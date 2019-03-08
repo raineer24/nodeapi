@@ -1,5 +1,5 @@
 {
     "env": {
-        "MONGO_ATLAS_PW": "rain"
+        "MONGO_ATLAS_PW": "ner-backend"
     }
 }

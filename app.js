@@ -9,10 +9,11 @@ const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://rain:' + process.env.MONGO_ATLAS_PW + '@node-rest-shop-shard-00-00-xcn1e.mongodb.net:27017,node-rest-shop-shard-00-01-xcn1e.mongodb.net:27017,node-rest-shop-shard-00-02-xcn1e.mongodb.net:27017/test?ssl=true&replicaSet=node-rest-shop-shard-0&authSource=admin',
+mongoose.connect('mongodb://ner-backend:' + process.env.MONGO_ATLAS_PW + '@ner-backend-shard-00-00-jef1p.mongodb.net:27017,ner-backend-shard-00-01-jef1p.mongodb.net:27017,ner-backend-shard-00-02-jef1p.mongodb.net:27017/test?ssl=true&replicaSet=ner-backend-shard-0&authSource=admin&retryWrites=true',
     {
         useMongoClient: true
     });
+  
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
