@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const nodeMailer = require('nodemailer');
+// const nodeMailer = require('nodemailer');
 
 
 const productRoutes = require('./api/routes/products');
@@ -12,7 +12,7 @@ const orderRoutes = require('./api/routes/orders');
 const userRoutes = require('./api/routes/user');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://rain:' + process.env.MONGO_ATLAS_PW + '@node-rest-shop-shard-00-00-xcn1e.mongodb.net:27017,node-rest-shop-shard-00-01-xcn1e.mongodb.net:27017,node-rest-shop-shard-00-02-xcn1e.mongodb.net:27017/test?ssl=true&replicaSet=node-rest-shop-shard-0&authSource=admin',
+mongoose.connect('mongodb://ner-backend:' + process.env.MONGO_ATLAS_PW + '@ner-backend-shard-00-00-jef1p.mongodb.net:27017,ner-backend-shard-00-01-jef1p.mongodb.net:27017,ner-backend-shard-00-02-jef1p.mongodb.net:27017/test?ssl=true&replicaSet=ner-backend-shard-0&authSource=admin&retryWrites=true',
     {
         useMongoClient: true
     });
@@ -27,32 +27,32 @@ app.get('/', function (req, res) {
     res.render('index');
 });
 
-app.post('/send-email', function (req, res) {
-    let transporter = nodeMailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
-        auth: {
-            user: 'raineerdelarita@gmail.com',
-            pass: 'delarita'
-        }
-    });
-    let mailOptions = {
-        from: 'raineerdelarita@gmail.com', // sender address
-        to: req.body.to, // list of receivers
-        subject: req.body.subject, // Subject line
-        text: req.body.body, // plain text body
-        html: '<b>NodeJS Email Tutorial</b>' // html body
-    };
+// app.post('/send-email', function (req, res) {
+//     let transporter = nodeMailer.createTransport({
+//         host: 'smtp.gmail.com',
+//         port: 587,
+//         secure: false,
+//         auth: {
+//             user: 'raineerdelarita@gmail.com',
+//             pass: 'delarita'
+//         }
+//     });
+//     let mailOptions = {
+//         from: 'raineerdelarita@gmail.com', // sender address
+//         to: req.body.to, // list of receivers
+//         subject: req.body.subject, // Subject line
+//         text: req.body.body, // plain text body
+//         html: '<b>NodeJS Email Tutorial</b>' // html body
+//     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
-        }
-        console.log('Message %s sent: %s', info.messageId, info.response);
-        res.render('index');
-    });
-});
+//     transporter.sendMail(mailOptions, (error, info) => {
+//         if (error) {
+//             return console.log(error);
+//         }
+//         console.log('Message %s sent: %s', info.messageId, info.response);
+//         res.render('index');
+//     });
+// });
 app.use((req,res,next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
